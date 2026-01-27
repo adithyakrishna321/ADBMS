@@ -1,0 +1,236 @@
+mysql> create database employeedetails;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use employeedetails;
+Database changed
+mysql> create table employee(employee_no int(10),employee_name varchar(30),place varchar(10),phone_no int(10),department_name varchar(30),job_id int(10),salary int(30));
+Query OK, 0 rows affected, 4 warnings (0.04 sec)
+
+mysql> show table employeedetails;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employeedetails' at line 1
+mysql> show tables;
++---------------------------+
+| Tables_in_employeedetails |
++---------------------------+
+| employee                  |
++---------------------------+
+1 row in set (0.00 sec)
+
+mysql> create table department(department_no int(10), employee_no int(10),employee_name varchar(30));
+Query OK, 0 rows affected, 2 warnings (0.05 sec)
+
+mysql> show tables;
++---------------------------+
+| Tables_in_employeedetails |
++---------------------------+
+| department                |
+| employee                  |
++---------------------------+
+2 rows in set (0.00 sec)
+
+mysql> desc student
+    -> desc student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc student' at line 2
+mysql> desc employeedetails;
+ERROR 1146 (42S02): Table 'employeedetails.employeedetails' doesn't exist
+mysql> use employeedetails;
+Database changed
+mysql> desc employeedetails;
+ERROR 1146 (42S02): Table 'employeedetails.employeedetails' doesn't exist
+mysql> desc employee;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| employee_no     | int         | YES  |     | NULL    |       |
+| employee_name   | varchar(30) | YES  |     | NULL    |       |
+| place           | varchar(10) | YES  |     | NULL    |       |
+| phone_no        | int         | YES  |     | NULL    |       |
+| department_name | varchar(30) | YES  |     | NULL    |       |
+| job_id          | int         | YES  |     | NULL    |       |
+| salary          | int         | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> desc department;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| department_no | int         | YES  |     | NULL    |       |
+| employee_no   | int         | YES  |     | NULL    |       |
+| employee_name | varchar(30) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table employee add hire_date dob;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dob' at line 1
+mysql> alter table employee add hire_date ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> alter table employeedetails  add hire_date date;
+ERROR 1146 (42S02): Table 'employeedetails.employeedetails' doesn't exist
+mysql> alter table employee  add hire_date date;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| employee_no     | int         | YES  |     | NULL    |       |
+| employee_name   | varchar(30) | YES  |     | NULL    |       |
+| place           | varchar(10) | YES  |     | NULL    |       |
+| phone_no        | int         | YES  |     | NULL    |       |
+| department_name | varchar(30) | YES  |     | NULL    |       |
+| job_id          | int         | YES  |     | NULL    |       |
+| salary          | int         | YES  |     | NULL    |       |
+| hire_date       | date        | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> alter table employee modify column job_id varchar(20);
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| employee_no     | int         | YES  |     | NULL    |       |
+| employee_name   | varchar(30) | YES  |     | NULL    |       |
+| place           | varchar(10) | YES  |     | NULL    |       |
+| phone_no        | int         | YES  |     | NULL    |       |
+| department_name | varchar(30) | YES  |     | NULL    |       |
+| job_id          | varchar(20) | YES  |     | NULL    |       |
+| salary          | int         | YES  |     | NULL    |       |
+| hire_date       | date        | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> alter table employee modify column e_no int(10);
+ERROR 1054 (42S22): Unknown column 'e_no' in 'employee'
+mysql> alter table employee rename column employee_no toe_no int(10);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'toe_no int(10)' at line 1
+mysql> alter table employee rename column employee_no to e_no int(10);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int(10)' at line 1
+mysql> alter table employee rename column employee_no to e_no;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table department modify column job_id varchar(20);
+ERROR 1054 (42S22): Unknown column 'job_id' in 'department'
+mysql> alter table employee  modify column job_id varchar(20);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee  modify column job_id varchar(40);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| e_no            | int         | YES  |     | NULL    |       |
+| employee_name   | varchar(30) | YES  |     | NULL    |       |
+| place           | varchar(10) | YES  |     | NULL    |       |
+| phone_no        | int         | YES  |     | NULL    |       |
+| department_name | varchar(30) | YES  |     | NULL    |       |
+| job_id          | varchar(40) | YES  |     | NULL    |       |
+| salary          | int         | YES  |     | NULL    |       |
+| hire_date       | date        | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> alter table employee add primarykey(e_no);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(e_no)' at line 1
+mysql> alter table employee add primary key(e_no);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> dec employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dec employee' at line 1
+mysql> desc employee;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| e_no            | int         | NO   | PRI | NULL    |       |
+| employee_name   | varchar(30) | YES  |     | NULL    |       |
+| place           | varchar(10) | YES  |     | NULL    |       |
+| phone_no        | int         | YES  |     | NULL    |       |
+| department_name | varchar(30) | YES  |     | NULL    |       |
+| job_id          | varchar(40) | YES  |     | NULL    |       |
+| salary          | int         | YES  |     | NULL    |       |
+| hire_date       | date        | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> alter table deprtament add primary key (department_no);
+ERROR 1146 (42S02): Table 'employeedetails.deprtament' doesn't exist
+mysql> alter table department add primary key (department_no);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc department;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| department_no | int         | NO   | PRI | NULL    |       |
+| employee_no   | int         | YES  |     | NULL    |       |
+| employee_name | varchar(30) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table employee drop hire_date;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| e_no            | int         | NO   | PRI | NULL    |       |
+| employee_name   | varchar(30) | YES  |     | NULL    |       |
+| place           | varchar(10) | YES  |     | NULL    |       |
+| phone_no        | int         | YES  |     | NULL    |       |
+| department_name | varchar(30) | YES  |     | NULL    |       |
+| job_id          | varchar(40) | YES  |     | NULL    |       |
+| salary          | int         | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> rename  table employee to emp;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc emp;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| e_no            | int         | NO   | PRI | NULL    |       |
+| employee_name   | varchar(30) | YES  |     | NULL    |       |
+| place           | varchar(10) | YES  |     | NULL    |       |
+| phone_no        | int         | YES  |     | NULL    |       |
+| department_name | varchar(30) | YES  |     | NULL    |       |
+| job_id          | varchar(40) | YES  |     | NULL    |       |
+| salary          | int         | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> truncate employee;
+ERROR 1146 (42S02): Table 'employeedetails.employee' doesn't exist
+mysql> truncate emp;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> truncate department;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> show tables;
++---------------------------+
+| Tables_in_employeedetails |
++---------------------------+
+| department                |
+| emp                       |
++---------------------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+
+

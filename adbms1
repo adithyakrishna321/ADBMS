@@ -1,0 +1,122 @@
+mca@mca-HP-Pro-Tower-280-G9-E-PCI-Desktop-PC:~/Desktop$ sudo ,ysql
+[sudo] password for mca: 
+sudo: ,ysql: command not found
+mca@mca-HP-Pro-Tower-280-G9-E-PCI-Desktop-PC:~/Desktop$ sudo mysql
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.44-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database college;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use college;
+Database changed
+mysql> create table student(roll_no int(10),name varchar(20).dob data(10
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.dob data(10' at line 1
+mysql> create table student(roll_no int(10),name varchar(20).dob data(10),dob date(10),place varchar(10),phone_no int(10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.dob data(10),dob date(10),place varchar(10),phone_no int(10))' at line 1
+mysql> create table student(roll_no int(10),name varchar(20),dob date,place varchar(10),phone_no int(10));
+Query OK, 0 rows affected, 2 warnings (0.05 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| student           |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> create table course(course_code varchar(10),course_name varchar(15),credit int(10));
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| course            |
+| student           |
++-------------------+
+2 rows in set (0.01 sec)
+
+mysql> alter table student add aadhar_no varchar(20);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| roll_no   | int         | YES  |     | NULL    |       |
+| name      | varchar(20) | YES  |     | NULL    |       |
+| dob       | date        | YES  |     | NULL    |       |
+| place     | varchar(10) | YES  |     | NULL    |       |
+| phone_no  | int         | YES  |     | NULL    |       |
+| aadhar_no | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.02 sec)
+
+mysql> desc course;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| course_code | varchar(10) | YES  |     | NULL    |       |
+| course_name | varchar(15) | YES  |     | NULL    |       |
+| credit      | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table student add aadhar_no varchar(20);
+ERROR 1060 (42S21): Duplicate column name 'aadhar_no'
+mysql> show table student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'student' at line 1
+mysql> desc student;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| roll_no   | int         | YES  |     | NULL    |       |
+| name      | varchar(20) | YES  |     | NULL    |       |
+| dob       | date        | YES  |     | NULL    |       |
+| place     | varchar(10) | YES  |     | NULL    |       |
+| phone_no  | int         | YES  |     | NULL    |       |
+| aadhar_no | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table student modify column roll_no varchar(10);
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| roll_no   | varchar(10) | YES  |     | NULL    |       |
+| name      | varchar(20) | YES  |     | NULL    |       |
+| dob       | date        | YES  |     | NULL    |       |
+| place     | varchar(10) | YES  |     | NULL    |       |
+| phone_no  | int         | YES  |     | NULL    |       |
+| aadhar_no | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> drop table student;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc student;
+ERROR 1146 (42S02): Table 'college.student' doesn't exist
+mysql> delete database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database' at line 1
+mysql> delete database  college;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database  college' at line 1
+mysql> drop database college;
+Query OK, 1 row affected (0.04 sec)
+
