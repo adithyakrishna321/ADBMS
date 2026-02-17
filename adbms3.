@@ -1,0 +1,439 @@
+mca@mca-HP-Pro-Tower-280-G9-E-PCI-Desktop-PC:~$ sudo mysql
+[sudo] password for mca: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.45-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| details            |
+| empdetails         |
+| employeedetails    |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> create database employees;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use employees;
+Database changed
+mysql> create table employee(emp_id int (20),emp_name varchar(20),designation varchar(20),salary int(10),joining_date date());
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '())' at line 1
+mysql> create table employee(emp_id int (20),emp_name varchar(20)not null,designation varchar(25),dept_id int (int),salary int(20),joining_date date());
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int),salary int(20),joining_date date())' at line 1
+mysql> create table employee(emp_id int (20) primary key,emp_name varchar(20) not null,designation varchar(25),dept_id int (10),salary int(20),joining_date date);
+Query OK, 0 rows affected, 3 warnings (0.07 sec)
+
+mysql> show tables;
++---------------------+
+| Tables_in_employees |
++---------------------+
+| employee            |
++---------------------+
+1 row in set (0.01 sec)
+
+mysql> desc employees;
+ERROR 1146 (42S02): Table 'employees.employees' doesn't exist
+mysql> desc employee;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| emp_id       | int         | NO   | PRI | NULL    |       |
+| emp_name     | varchar(20) | NO   |     | NULL    |       |
+| designation  | varchar(25) | YES  |     | NULL    |       |
+| dept_id      | int         | YES  |     | NULL    |       |
+| salary       | int         | YES  |     | NULL    |       |
+| joining_date | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.02 sec)
+
+mysql> create table department(dept_id int(10),dept_name varchar(25));
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> desc department;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| dept_id   | int         | YES  |     | NULL    |       |
+| dept_name | varchar(25) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table department add primary key(dept_id);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee add constraint fk_dept foreignkey (dept_id) references department(dept_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreignkey (dept_id) references department(dept_id)' at line 1
+mysql> alter table employee add constraint fk_dept foreign key (dept_id) references department (dept_id);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc department;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| dept_id   | int         | NO   | PRI | NULL    |       |
+| dept_name | varchar(25) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> desc employee;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| emp_id       | int         | NO   | PRI | NULL    |       |
+| emp_name     | varchar(20) | NO   |     | NULL    |       |
+| designation  | varchar(25) | YES  |     | NULL    |       |
+| dept_id      | int         | YES  | MUL | NULL    |       |
+| salary       | int         | YES  |     | NULL    |       |
+| joining_date | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> insert into department (dept_id,dept_name) values (1,'HR');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into department (dept_id,dept_name) values (2,'IT');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into department (dept_id,dept_name) values (3,'Finance');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into department (dept_id,dept_name) values (4,'Admin');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into department (dept_id,dept_name) values (5,'Sales');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> show tables;
++---------------------+
+| Tables_in_employees |
++---------------------+
+| department          |
+| employee            |
++---------------------+
+2 rows in set (0.00 sec)
+
+mysql> show table employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employee' at line 1
+mysql> desc employee;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| emp_id       | int         | NO   | PRI | NULL    |       |
+| emp_name     | varchar(20) | NO   |     | NULL    |       |
+| designation  | varchar(25) | YES  |     | NULL    |       |
+| dept_id      | int         | YES  | MUL | NULL    |       |
+| salary       | int         | YES  |     | NULL    |       |
+| joining_date | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> select * from department;
++---------+-----------+
+| dept_id | dept_name |
++---------+-----------+
+|       1 | HR        |
+|       2 | IT        |
+|       3 | Finance   |
+|       4 | Admin     |
+|       5 | Sales     |
++---------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into employee values(110,'Anitta','Typist',1,10000,'2000-03-02');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee values(111,'Veena','Analyst',2,28000,'2001-02-02');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values(112,'Mariya','Manager',3,40000,'2000-03-02');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values(113,'Geethu','Typist',2,5000,'2001-03-02');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee values(114,'Joseph','Clerk',2,20000,'2002-03-02');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values(115,'Alen','Manager',3,42000,'2003-03-02');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee values(116,'Anu','Analyst',2,30000,'2003-03-02');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from employee;
++--------+----------+-------------+---------+--------+--------------+
+| emp_id | emp_name | designation | dept_id | salary | joining_date |
++--------+----------+-------------+---------+--------+--------------+
+|    110 | Anitta   | Typist      |       1 |  10000 | 2000-03-02   |
+|    111 | Veena    | Analyst     |       2 |  28000 | 2001-02-02   |
+|    112 | Mariya   | Manager     |       3 |  40000 | 2000-03-02   |
+|    113 | Geethu   | Typist      |       2 |   5000 | 2001-03-02   |
+|    114 | Joseph   | Clerk       |       2 |  20000 | 2002-03-02   |
+|    115 | Alen     | Manager     |       3 |  42000 | 2003-03-02   |
+|    116 | Anu      | Analyst     |       2 |  30000 | 2003-03-02   |
++--------+----------+-------------+---------+--------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> select e.emp_name,d.dept_name from employee e join  department d on e.dept_id=d.dept_id;
++----------+-----------+
+| emp_name | dept_name |
++----------+-----------+
+| Anitta   | HR        |
+| Veena    | IT        |
+| Geethu   | IT        |
+| Joseph   | IT        |
+| Anu      | IT        |
+| Mariya   | Finance   |
+| Alen     | Finance   |
++----------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select d.dept_name from employee e join department d on e.dept_id = d.dept_id where e.emp_name = 'Geethu';
++-----------+
+| dept_name |
++-----------+
+| IT        |
++-----------+
+1 row in set (0.01 sec)
+
+mysql> select e.salary from employee e join department d on e.dept_id = d.dept_id where d.dept_name='HR';
++--------+
+| salary |
++--------+
+|  10000 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select e.* from employee e join department d on e.dept_id = d.dept_id where e.design = 'Analyst' AND d.dept_name='IT';
+ERROR 1054 (42S22): Unknown column 'e.design' in 'where clause'
+mysql> select e.* from employee e join department d on e.dept_id = d.dept_id where e.designation = 'Analyst' AND d.dept_name='IT';
++--------+----------+-------------+---------+--------+--------------+
+| emp_id | emp_name | designation | dept_id | salary | joining_date |
++--------+----------+-------------+---------+--------+--------------+
+|    111 | Veena    | Analyst     |       2 |  28000 | 2001-02-02   |
+|    116 | Anu      | Analyst     |       2 |  30000 | 2003-03-02   |
++--------+----------+-------------+---------+--------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select e.salary from employee e join department d on e.dept_id = d.dept_id where d.dept_name='Finance';
++--------+
+| salary |
++--------+
+|  40000 |
+|  42000 |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select e.* from employee e join department d on e.dept_id = d.dept_id where d.dept_name not in('finance','HR');
++--------+----------+-------------+---------+--------+--------------+
+| emp_id | emp_name | designation | dept_id | salary | joining_date |
++--------+----------+-------------+---------+--------+--------------+
+|    111 | Veena    | Analyst     |       2 |  28000 | 2001-02-02   |
+|    113 | Geethu   | Typist      |       2 |   5000 | 2001-03-02   |
+|    114 | Joseph   | Clerk       |       2 |  20000 | 2002-03-02   |
+|    116 | Anu      | Analyst     |       2 |  30000 | 2003-03-02   |
++--------+----------+-------------+---------+--------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select d.dept_name from employee e join department d on e.dept_id = d.dept_id where e.salary = (select max(salary)from employee);
++-----------+
+| dept_name |
++-----------+
+| Finance   |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select d.dept_name from employee e join department d on e.dept_id =d.dept_id group by d.dept_name having count(*) = (select min(cnt)
+    -> from(Select count(*)cnt from employee group by dept_id)x);
++-----------+
+| dept_name |
++-----------+
+| HR        |
++-----------+
+1 row in set (0.01 sec)
+
+mysql> select e.emp_name from employee e where e.salary>(select avg(salary)from employee where dept_id = e.dept_id);
++----------+
+| emp_name |
++----------+
+| Veena    |
+| Alen     |
+| Anu      |
++----------+
+3 rows in set (0.00 sec)
+
+mysql> select dept_id,count(*)as "number of dept_employee" from employee group by dept_id having count(*)>2;
++---------+-------------------------+
+| dept_id | number of dept_employee |
++---------+-------------------------+
+|       2 |                       4 |
++---------+-------------------------+
+1 row in set (0.00 sec)
+
+mysql> select dept_id,min(salary) as "lowest salary" from employee group by dept_id
+    -> select dept_id,min(salary) as "lowest salary" from employee group by dept_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select dept_id,min(salary) as "lowest salary" from employee group by dept_id' at line 2
+mysql> select dept_id,min(salary) as "lowest salary" from employee group by dept_id;
++---------+---------------+
+| dept_id | lowest salary |
++---------+---------------+
+|       1 |         10000 |
+|       2 |          5000 |
+|       3 |         40000 |
++---------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> select e.dept_id,e.emp_name from employee e where e.salary = (select max(salary) from employee where dept_id = e.dept_id);
++---------+----------+
+| dept_id | emp_name |
++---------+----------+
+|       1 | Anitta   |
+|       3 | Alen     |
+|       2 | Anu      |
++---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select d.dept_name from employee e join department d on e.dept_id - d.dept_id group by d.dept_name having sum(e.salary)=(slect min(total)from (select sum(salary) total from employee group by dept_id)x);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'min(total)from (select sum(salary) total from employee group by dept_id)x)' at line 1
+mysql> select d.dept_name from employee e join department d on e.dept_id = d.dept_id group by d.dept_name having sum(e.salary)=(slect min(total) from (select sum(salary) total from employee group by dept_id)x);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'min(total) from (select sum(salary) total from employee group by dept_id)x)' at line 1
+mysql> select d.dept_name from employee e join department d on e.dept_id = d.dept_id group by d.dept_name having sum(e.salary) = (select min(total) from (select sum(salary) total from employee group by dept_id)x);
++-----------+
+| dept_name |
++-----------+
+| HR        |
++-----------+
+1 row in set (0.01 sec)
+
+mysql> select emp_name from employee where year(joining_date) = 2000;
++----------+
+| emp_name |
++----------+
+| Anitta   |
+| Mariya   |
++----------+
+2 rows in set (0.00 sec)
+
+mysql> select emp_name from employee where year(joining_date) = 8;
+Empty set (0.00 sec)
+
+mysql> select emp_name from employee where month(joining_date) = 8;
+Empty set (0.00 sec)
+
+mysql> select 
+    -> select * from department d where not exists(select * from employee e where e.dept_id = d.dept_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from department d where not exists(select * from employee e where e.dep' at line 2
+mysql> select * from department d where not exists(select * from employee e where e.dept_id = d.dept_id);
++---------+-----------+
+| dept_id | dept_name |
++---------+-----------+
+|       4 | Admin     |
+|       5 | Sales     |
++---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into employee(emp_id emp
+    -> insert into employee(emp_id emp_name,design,dept_id,salary,joining_date) values(200,'rahul','clerk',null,15000,'2004-05-12');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'emp
+insert into employee(emp_id emp_name,design,dept_id,salary,joining_date) val' at line 1
+mysql>  insert into employee(emp_id emp_name,design,dept_id,salary,joining_date) values(200,'rahul','clerk',null,15000,'2004-05-12');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'emp_name,design,dept_id,salary,joining_date) values(200,'rahul','clerk',null,150' at line 1
+mysql>  insert into employee(emp_id emp_name,design,dept_id,salary,joining_date) values(200,'rahul','clerk',NULL,15000,'2004-05-12');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'emp_name,design,dept_id,salary,joining_date) values(200,'rahul','clerk',NULL,150' at line 1
+mysql>  insert into employee(emp_id emp_name,designation,dept_id,salary,joining_date) values(200,'rahul','clerk',NULL,15000,'2004-05-12');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'emp_name,designation,dept_id,salary,joining_date) values(200,'rahul','clerk',NUL' at line 1
+mysql>  insert into employee(emp_id emp_name,designation,dept_id,salary,joining_date) values(200,'rahul','clerk',NULL,15000,'2004-05-12');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'emp_name,designation,dept_id,salary,joining_date) values(200,'rahul','clerk',NUL' at line 1
+mysql>  insert into employee values(200,'rahul','clerk',NULL,15000,'2004-05-12');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from empoyee;
+ERROR 1146 (42S02): Table 'employees.empoyee' doesn't exist
+mysql> select * from employee;
++--------+----------+-------------+---------+--------+--------------+
+| emp_id | emp_name | designation | dept_id | salary | joining_date |
++--------+----------+-------------+---------+--------+--------------+
+|    110 | Anitta   | Typist      |       1 |  10000 | 2000-03-02   |
+|    111 | Veena    | Analyst     |       2 |  28000 | 2001-02-02   |
+|    112 | Mariya   | Manager     |       3 |  40000 | 2000-03-02   |
+|    113 | Geethu   | Typist      |       2 |   5000 | 2001-03-02   |
+|    114 | Joseph   | Clerk       |       2 |  20000 | 2002-03-02   |
+|    115 | Alen     | Manager     |       3 |  42000 | 2003-03-02   |
+|    116 | Anu      | Analyst     |       2 |  30000 | 2003-03-02   |
+|    200 | rahul    | clerk       |    NULL |  15000 | 2004-05-12   |
++--------+----------+-------------+---------+--------+--------------+
+8 rows in set (0.00 sec)
+
+mysql> select d.dept_name,e.emp_name from department d left join employee e on d.dept_id = e.dept_id;
++-----------+----------+
+| dept_name | emp_name |
++-----------+----------+
+| HR        | Anitta   |
+| IT        | Veena    |
+| IT        | Geethu   |
+| IT        | Joseph   |
+| IT        | Anu      |
+| Finance   | Mariya   |
+| Finance   | Alen     |
+| Admin     | NULL     |
+| Sales     | NULL     |
++-----------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select e.emp_name,d.dept_name from employee e left join department d on e.dept_id = d.dept_id;
++----------+-----------+
+| emp_name | dept_name |
++----------+-----------+
+| Anitta   | HR        |
+| Veena    | IT        |
+| Mariya   | Finance   |
+| Geethu   | IT        |
+| Joseph   | IT        |
+| Alen     | Finance   |
+| Anu      | IT        |
+| rahul    | NULL      |
++----------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> select emp_name,coalesce(dept_id,0)as dept_id from employee;
++----------+---------+
+| emp_name | dept_id |
++----------+---------+
+| Anitta   |       1 |
+| Veena    |       2 |
+| Mariya   |       3 |
+| Geethu   |       2 |
+| Joseph   |       2 |
+| Alen     |       3 |
+| Anu      |       2 |
+| rahul    |       0 |
++----------+---------+
+8 rows in set (0.00 sec)
+
+mysql> select d.dept_name,e.emp_name from department d full outer join employee e on d.dept_id=e.dept_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full outer join employee e on d.dept_id=e.dept_id' at line 1
+mysql> select d.dept_name,e.emp_name from department d full outer join employee e on d.dept_id=e.dept_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full outer join employee e on d.dept_id=e.dept_id' at line 1
+mysql> select d.dept_name,e.emp_name from department dfull outer join employee e on d.dept_id=e.dept_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'outer join employee e on d.dept_id=e.dept_id' at line 1
+mysql> select d.dept_name,e.emp_name from department d full outer join employee e on d.dept_id = e.dept_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full outer join employee e on d.dept_id = e.dept_id' at line 1
+mysql> select d.dept_name,e.emp_name from department d full outer join employee e on d.dept_id = e.dept_id;
+
